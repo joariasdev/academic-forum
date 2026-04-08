@@ -2,7 +2,7 @@ namespace AcademicForum.Domain.Entities;
 
 public class Discussion
 {
-    int Id { get; set; }
+    public int Id { get; set; }
     public string Comment { get; set; } = String.Empty;
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }
