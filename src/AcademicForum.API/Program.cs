@@ -1,6 +1,10 @@
+using AcademicForum.Application.Services;
+using AcademicForum.Infrastructure.Contracts;
 using AcademicForum.Infrastructure.Data;
 using AcademicForum.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using AcademicForum.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateMovieDtoValidator>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<MovieRepository>();
 builder.Services.AddScoped<MemberRepository>();
 builder.Services.AddScoped<VenueRepository>();
@@ -28,6 +36,14 @@ builder.Services.AddScoped<DiscussionRepository>();
 builder.Services.AddScoped<ResponseRepository>();
 builder.Services.AddScoped<AttendeeRecordRepository>();
 builder.Services.AddScoped<EventRepository>();
+
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IVenueService, VenueService>();
+builder.Services.AddScoped<IResponseService, ResponseService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IDiscussionService, DiscussionService>();
+builder.Services.AddScoped<IAttendeeRecordService, AttendeeRecordService>();
 
 var app = builder.Build();
 
