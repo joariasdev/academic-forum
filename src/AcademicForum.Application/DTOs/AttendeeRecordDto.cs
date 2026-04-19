@@ -1,11 +1,8 @@
-namespace AcademicForum.Domain.Entities;
-
-public class AttendeeRecord
+namespace AcademicForum.Application.DTOs;
+public class AttendeeRecordDto
 {
     public int Id { get; set; }
     public bool HasAttended { get; set; }
     public int EventId { get; set; }
     public int MemberId { get; set; }
-    public Event? Event { get; set; }
-    public Member? Member { get; set; }
 }

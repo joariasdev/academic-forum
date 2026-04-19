@@ -1,8 +1,9 @@
+using AcademicForum.Infrastructure.Contracts;
 using AcademicForum.Infrastructure.Data;
 
 namespace AcademicForum.Infrastructure.Repositories;
 
-public class UnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
     public MovieRepository Movies { get; }
