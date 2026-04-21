@@ -24,13 +24,13 @@ public class EventService : IEventService
         return ApiResponse<List<EventDto>>.SuccessResponse(events.Adapt<List<EventDto>>());
     }
 
-    public async Task<ApiResponse<EventDto>> GetById(int id)
+    public async Task<ApiResponse<EventDetailDto>> GetById(int id)
     {
         var ev = await _unitOfWork.Events.GetByIdAsync(id);
 
         return ev is null
-            ? ApiResponse<EventDto>.FailureResponse($"Event with id {id} not found.", 404)
-            : ApiResponse<EventDto>.SuccessResponse(ev.Adapt<EventDto>());
+            ? ApiResponse<EventDetailDto>.FailureResponse($"Event with id {id} not found.", 404)
+            : ApiResponse<EventDetailDto>.SuccessResponse(ev.Adapt<EventDetailDto>());
     }
 
     public async Task<ApiResponse<EventDto>> Create(CreateEventDto request)

@@ -5,6 +5,7 @@ using AcademicForum.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using AcademicForum.Application.Validators;
+using AcademicForum.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactDev", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -46,6 +47,8 @@ builder.Services.AddScoped<IDiscussionService, DiscussionService>();
 builder.Services.AddScoped<IAttendeeRecordService, AttendeeRecordService>();
 
 var app = builder.Build();
+
+MappingConfig.RegisterMappings();
 
 if (app.Environment.IsDevelopment())
 {

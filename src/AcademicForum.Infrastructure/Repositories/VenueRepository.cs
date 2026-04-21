@@ -18,7 +18,7 @@ public class VenueRepository : IGenericRepository<Venue>
     }
     public async Task<Venue?> GetByIdAsync(int id)
     {
-        return await _context.Venues.FindAsync(id);
+        return await _context.Venues.Include(v => v.Events).FirstOrDefaultAsync(v => v.Id == id);
     }
     public async Task AddAsync(Venue venue)
     {

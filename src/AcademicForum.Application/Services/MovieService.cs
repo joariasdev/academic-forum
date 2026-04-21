@@ -24,13 +24,13 @@ public class MovieService : IMovieService
         return ApiResponse<List<MovieDto>>.SuccessResponse(movies.Adapt<List<MovieDto>>());
     }
 
-    public async Task<ApiResponse<MovieDto>> GetById(int id)
+    public async Task<ApiResponse<MovieDetailDto>> GetById(int id)
     {
         var movie = await _unitOfWork.Movies.GetByIdAsync(id);
 
         return movie is null
-            ? ApiResponse<MovieDto>.FailureResponse($"Movie with id {id} not found.", 404)
-            : ApiResponse<MovieDto>.SuccessResponse(movie.Adapt<MovieDto>());
+            ? ApiResponse<MovieDetailDto>.FailureResponse($"Movie with id {id} not found.", 404)
+            : ApiResponse<MovieDetailDto>.SuccessResponse(movie.Adapt<MovieDetailDto>());
     }
 
     public async Task<ApiResponse<MovieDto>> Create(CreateMovieDto request)

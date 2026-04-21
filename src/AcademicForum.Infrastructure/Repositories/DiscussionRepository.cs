@@ -14,21 +14,28 @@ public class DiscussionRepository : IGenericRepository<Discussion>
     }
     public async Task<IEnumerable<Discussion>> GetAllAsync()
     {
-        return await _context.Discussions.ToListAsync();
+        return await _context.Discussions
+                .Include(d => d.Member)
+                .Include(d => d.Responses)
+                .ToListAsync();
     }
     public async Task<Discussion?> GetByIdAsync(int id)
     {
-        return await _context.Discussions.FindAsync(id);
+        return await _context.Discussions
+            .Include(d => d.Member)
+            .Include(d => d.Responses)
+                .ThenInclude(r => r.Member)
+            .FirstOrDefaultAsync(d => d.Id == id);
     }
     public async Task AddAsync(Discussion discussion)
     {
         await _context.Discussions.AddAsync(discussion);
-        
+
     }
     public async Task UpdateAsync(Discussion discussion)
     {
         _context.Discussions.Update(discussion);
-        
+
     }
     public async Task DeleteAsync(int id)
     {
@@ -36,7 +43,7 @@ public class DiscussionRepository : IGenericRepository<Discussion>
         if (discussion != null)
         {
             _context.Discussions.Remove(discussion);
-            
+
         }
     }
 

@@ -24,13 +24,13 @@ public class VenueService : IVenueService
         return ApiResponse<List<VenueDto>>.SuccessResponse(venues.Adapt<List<VenueDto>>());
     }
 
-    public async Task<ApiResponse<VenueDto>> GetById(int id)
+    public async Task<ApiResponse<VenueDetailDto>> GetById(int id)
     {
         var venue = await _unitOfWork.Venues.GetByIdAsync(id);
 
         return venue is null
-            ? ApiResponse<VenueDto>.FailureResponse($"Venue with id {id} not found.", 404)
-            : ApiResponse<VenueDto>.SuccessResponse(venue.Adapt<VenueDto>());
+            ? ApiResponse<VenueDetailDto>.FailureResponse($"Venue with id {id} not found.", 404)
+            : ApiResponse<VenueDetailDto>.SuccessResponse(venue.Adapt<VenueDetailDto>());
     }
 
     public async Task<ApiResponse<VenueDto>> Create(CreateVenueDto request)

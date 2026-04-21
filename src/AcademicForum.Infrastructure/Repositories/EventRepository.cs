@@ -18,17 +18,25 @@ public class EventRepository : IGenericRepository<Event>
     }
     public async Task<Event?> GetByIdAsync(int id)
     {
-        return await _context.Events.FindAsync(id);
+        return await _context.Events
+            .Include(e => e.Movie)
+            .Include(e => e.Venue)
+            .Include(e => e.Discussions)
+                .ThenInclude(d => d.Member)
+                .ThenInclude(d => d.Responses)
+            .Include(e => e.AttendeeRecords)
+                .ThenInclude(ar => ar.Member)
+            .FirstOrDefaultAsync(e => e.Id == id);
     }
     public async Task AddAsync(Event eventEntity)
     {
         await _context.Events.AddAsync(eventEntity);
-        
+
     }
     public async Task UpdateAsync(Event eventEntity)
     {
         _context.Events.Update(eventEntity);
-        
+
     }
     public async Task DeleteAsync(int id)
     {
@@ -36,7 +44,7 @@ public class EventRepository : IGenericRepository<Event>
         if (eventEntity != null)
         {
             _context.Events.Remove(eventEntity);
-            
+
         }
     }
 

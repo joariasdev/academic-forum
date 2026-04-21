@@ -14,7 +14,7 @@ public class ResponseRepository : IGenericRepository<Response>
     }
     public async Task<IEnumerable<Response>> GetAllAsync()
     {
-        return await _context.Responses.ToListAsync();
+        return await _context.Responses.Include(d => d.Member).ToListAsync();
     }
     public async Task<Response?> GetByIdAsync(int id)
     {
