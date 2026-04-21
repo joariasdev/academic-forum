@@ -18,7 +18,11 @@ public class MovieRepository : IGenericRepository<Movie>
     }
     public async Task<Movie?> GetByIdAsync(int id)
     {
-        return await _context.Movies.FindAsync(id);
+        // return await _context.Movies.FindAsync(id);
+        return await _context.Movies
+            .Include(m => m.Discussions)
+            .ThenInclude(d => d.Member)
+            .FirstOrDefaultAsync(m => m.Id == id);
     }
     public async Task AddAsync(Movie movie)
     {

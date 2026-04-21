@@ -24,13 +24,13 @@ public class DiscussionService : IDiscussionService
         return ApiResponse<List<DiscussionDto>>.SuccessResponse(discussions.Adapt<List<DiscussionDto>>());
     }
 
-    public async Task<ApiResponse<DiscussionDto>> GetById(int id)
+    public async Task<ApiResponse<DiscussionDetailDto>> GetById(int id)
     {
         var discussion = await _unitOfWork.Discussions.GetByIdAsync(id);
 
         return discussion is null
-            ? ApiResponse<DiscussionDto>.FailureResponse($"Discussion with id {id} not found.", 404)
-            : ApiResponse<DiscussionDto>.SuccessResponse(discussion.Adapt<DiscussionDto>());
+            ? ApiResponse<DiscussionDetailDto>.FailureResponse($"Discussion with id {id} not found.", 404)
+            : ApiResponse<DiscussionDetailDto>.SuccessResponse(discussion.Adapt<DiscussionDetailDto>());
     }
 
     public async Task<ApiResponse<DiscussionDto>> Create(CreateDiscussionDto request)
